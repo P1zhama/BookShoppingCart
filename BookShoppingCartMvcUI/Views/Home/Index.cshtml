@@ -1,0 +1,90 @@
+﻿@model BookDisplayModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="my-3 m-3">
+<form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
+
+  <div class="col-12">
+            <label class="visually-hidden" for="genreId">Genres</label>
+            <select class="form-select" id="genreId" name="genreId">
+                <option selected>Жанр</option>
+                @foreach(var genre in Model.Genres)
+                {
+                    <option selected="@(genre.Id == Model.GanreId)" value="@genre.Id">@genre.GenreName</option>
+                }
+            </select>
+  </div>
+
+        <div class="col-12">
+            <label class="visually-hidden" for="sterm">Search by title</label>
+            <div class="input-group">
+                <div class="input-group-text"></div>
+                <input type="text" class="form-control" id="sterm" value="@Model.STrem" name="sterm" placeholder="Поиск по названию">
+            </div>
+        </div>
+
+  <div class="col-12">
+            <button type="submit" class="btn btn-primary"><span style="color: white">Поиск</span></button>
+            <a href="/Home/Index" class="btn btn-primary"><span style="color: white">Сброс</span></a>
+  </div>
+</form>
+</div>
+
+
+<div class="w-100 d-flex flex-wrap mt-4">
+    @foreach(var book in Model.Books)
+    {
+        <div class="card mx-4 mb-5 shadow-lg bg-white rounded" style="width: 16rem;">
+            @if(!string.IsNullOrEmpty(book.Image))
+            {
+                <img src="@book.Image" class="card-img-top" style="height: 155px" alt="...">
+            }
+            else
+            {
+                <img src="/Images/9d40020b-87fd-5c33-bcc4-949b5ae88729.jpg" class="card-img-top" style="height: 155px" alt="....">
+            }
+            <div class="card-body">
+                <h5 class="card-title">@book.BookName</h5>
+                <p class="card-text">
+                    Жанр: @book.GenreName
+                    <br>
+                    Автор: @book.AuthorName
+                    <br>
+                    Цена: @book.Price &#8381;
+                </p>
+            </div>
+                <button type="button" onclick="add(@book.Id)" class="btn btn-primary" style=""><span style="color: white">Добавить в корзину</span></button>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        async function add(bookId) {
+            var usernameEl = document.getElementById("username");
+            if (usernameEl == null) {
+                window.location.href = "/Identity/Account/Login";
+                //var username=usernameEl.innerText;
+                //  if(username.length<1){
+                //      window.location.href="/Identity/Account/Login";
+                //  }
+            }
+            try {
+                var response = await fetch(`/Cart/AddItem?bookId=${bookId}`);
+                if (response.status == 200) {
+                    var result = await response.json();
+                    var cartCountEl = document.getElementById("cartCount");
+                    cartCountEl.innerHTML = result;
+                    window.location.href = "#cartCount";
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    </script>
+}
+

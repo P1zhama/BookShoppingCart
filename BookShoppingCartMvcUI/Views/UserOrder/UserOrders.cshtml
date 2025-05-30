@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Order>
+@{
+}
+<div style="width:100%" class="mt-2">
+@*     <a href="/Identity/Account/Manage" class="btn btn-primary my-2">Back</a> *@
+    <table class="table">
+        <tr style="border-bottom: 1px solid black">
+            <th><h2>Мои заказы</h2></th>
+        </tr>
+    </table>
+    @if (Model != null && Model.Count() > 0)
+    {
+            @foreach (var order in Model)
+            {
+                <table class="table table-striped">
+                    <tr>
+                    <th style="background-color:#1a1a1a; color:lavender">Дата и время заказа</th>
+                    <th style="background-color:#2a2a2a; color:white">Статус заказа</th>
+                    <th style="background-color:#3a3a3a; color:white">Итоговая сумма</th>
+                    </tr>
+                    <tr>
+                        <td>@order.CreateDate.ToString("dd-MM-yyyy")&nbsp;&nbsp;@order.CreateDate.ToString("HH:mm")</td>
+                        <td>@order.OrderStatus.StatusName</td>
+                        <td>@(order.OrderDetail.Select(item => item.Book.Price * item.Quantity).Sum())</td>
+                    </tr>
+                    @if (order.OrderDetail != null && order.OrderDetail.Count > 0)
+                    {                   
+                      <table class="table table-striped">
+                          <tr>
+                              <th>Название</th>
+                              <th>Книга</th>
+                              <th>Жанр</th>
+                              <th>Цена за единицу</th>
+                              <th>Итоговая цена</th>
+                          </tr>
+                          @foreach (var item in order.OrderDetail)
+                          {
+                                <tr>
+                                       <td>@item.Book.BookName</td>
+                                          <td>
+                                                @if (!string.IsNullOrEmpty(item.Book.Image))
+                                                {
+                                                    <img src="@item.Book.Image" class="card-img-top" style="height: 140px; width:250px " alt="...">
+                                                }
+                                                else
+                                                {
+                                        <img src="/Images/9d40020b-87fd-5c33-bcc4-949b5ae88729.jpg" class="card-img-top" style="height: 140px; width:250px" alt="....">
+                                                }
+                                          </td>
+                                  <td>@item.Book.Genre.GenreName</td>
+                                  <td>@item.Book.Price X @item.Quantity</td>
+                                  <td> @(item.Book.Price * item.Quantity) </td>
+                                </tr>
+                          }      
+                      </table>                
+                     }
+                </table>
+            }
+
+    }
+    else
+    {
+        <h3>Самое время совершить покупку</h3>
+    }
+</div>

@@ -1,0 +1,57 @@
+﻿@model CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h2 class="mt-3">Оформление заказа</h2>
+
+<form asp-action="Checkout">
+    <div class="py-2">
+        <label asp-for="Name">Имя*</label>
+        <input type="text" class="form-control" asp-for="Name" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="py-2">
+        <label asp-for="Email">E-mail*</label>
+        <input type="text" class="form-control" asp-for="Email" value="" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="py-2">
+        <label asp-for="MobileNumber">Номер телефона*</label>
+        <input type="text" class="form-control" asp-for="MobileNumber" required />
+        <span asp-validation-for="MobileNumber" class="text-danger"></span>
+    </div>
+
+    <div class="py-2">
+        <label asp-for="Address">Адресс*</label>
+        <textarea asp-for="Address" class="form-control" rows="5" required></textarea>
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="py-2">
+        <span class="mr-2">Метод оплаты*</span>
+        <select asp-for="PaymentMethod" class="form-control" required>
+            <option value="">Выберите способ оплаты</option>
+            @foreach (var method in Enum.GetValues(typeof(BookShoppingCartMvcUI.Constants.PaymentMethods)))
+            {
+                @if (method.ToString() == "COD")
+                {
+                    <option value="@method.ToString()">При получении</option>
+                }
+                @if (method.ToString() == "Online")
+                {
+                    <option value="@method.ToString()">Онлайн</option>
+                }
+@*                <option value="@method.ToString()">@method.ToString()</option> *@
+            }
+        </select>
+        <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+    </div>
+
+    <div class="py-2">
+        <button type="submit" class="btn" style="background-color:rebeccapurple; color:white">Далее</button>
+    </div>
+</form>
+

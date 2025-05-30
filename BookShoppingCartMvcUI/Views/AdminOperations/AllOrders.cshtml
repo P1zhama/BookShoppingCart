@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Order>
+@{
+   @* Layout = "_AdminLayout";*@
+    ViewData["Title"] = "AllOrders";
+}
+<div style="width:105%" class="mt-2">
+    <div class="mt-4 m-2">
+        <h3> Заказы </h3>
+        <hr />
+    </div>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>Дата и время заказа</th>
+                <th>Имя</th>
+                <th>Email</th>
+                <th>Номер телефона</th>
+                <th>адрес</th>
+                <th>Статус платежа</th>
+                <th>Статус заказа</th>
+                <th>Действеия</th>
+
+            </tr>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.CreateDate.ToString("dd-MM-yyyy")&nbsp;&nbsp;@order.CreateDate.ToString("HH:mm")</td>
+                    <td>@order.Name</td>
+                    <td>@order.MobileNumber</td>
+                    <td>@order.Email</td>
+                    <td>@order.Address</td>
+                    <td>@(order.PaymentMethod?.ToString() == "COD" ? "При получении" : "Онлайн")&nbsp;|&nbsp;@(order.IsPaid ? "Оплачено" : "Не оплачено")</td>
+                    <td>@order.OrderStatus.StatusName</td>
+                    <td>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal-@order.Id" class="btn btn-primary">Детали заказа</button>
+                        <a asp-action="UpdateOrderStatus" asp-route-orderId="@order.Id" class="btn btn-info mt-1">Изменить статус заказа</a>
+                        <a asp-action="TogglePaymentStatus" asp-route-orderId="@order.Id" class="btn btn-info mt-1">Изменить статус платежа</a>
+
+                   @* appending modal div here *@
+                   @* Make sure to put this partial tag inside this td block, otherwise it can cause layout related problem*@
+                   @await Html.PartialAsync("/Views/AdminOperations/_OrderDetailModal.cshtml",new OrderDetailModalDTO{DivId=order.Id.ToString(), OrderDetail=order.OrderDetail})
+                    </td>
+
+                </tr>
+
+            }
+            
+        </table>
+
+    }
+    else
+    {
+        <h5>Нет заказов</h5>
+    }
+
+
+</div>
