@@ -56,7 +56,10 @@
                     Цена: @book.Price &#8381;
                 </p>
             </div>
+            @if (User.IsInRole(Roles.User.ToString()))
+            {                
                 <button type="button" onclick="add(@book.Id)" class="btn btn-primary" style=""><span style="color: white">Добавить в корзину</span></button>
+            }
         </div>
     }
 </div>

@@ -30,15 +30,26 @@
                     <td>@order.MobileNumber</td>
                     <td>@order.Email</td>
                     <td>@order.Address</td>
-                    <td>@(order.PaymentMethod?.ToString() == "COD" ? "При получении" : "Онлайн")&nbsp;|&nbsp;@(order.IsPaid ? "Оплачено" : "Не оплачено")</td>
+                    <td>@(order.PaymentMethod?.ToString() == "COD" ? "При получении" : "Онлайн")<br>
+                        @if (order.IsPaid)
+                        {
+                            <span style="color:green" >Оплаченно</span>
+                        }
+                        else
+                        {
+                            <span style="color:crimson" >Не оплаченно</span>
+                        }
+                    </td>
                     <td>@order.OrderStatus.StatusName</td>
                     <td>
+                        <div class="d-grid gap-1">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#modal-@order.Id" class="btn btn-primary">Детали заказа</button>
                         <a asp-action="UpdateOrderStatus" asp-route-orderId="@order.Id" class="btn btn-info mt-1">Изменить статус заказа</a>
                         <a asp-action="TogglePaymentStatus" asp-route-orderId="@order.Id" class="btn btn-info mt-1">Изменить статус платежа</a>
+                        </div>
 
-                   @* appending modal div here *@
-                   @* Make sure to put this partial tag inside this td block, otherwise it can cause layout related problem*@
+
+
                    @await Html.PartialAsync("/Views/AdminOperations/_OrderDetailModal.cshtml",new OrderDetailModalDTO{DivId=order.Id.ToString(), OrderDetail=order.OrderDetail})
                     </td>
 
