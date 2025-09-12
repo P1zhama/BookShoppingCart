@@ -1,0 +1,35 @@
+﻿@using THEBOOKSTORE.Models.DTOs
+
+@model IEnumerable<StockDisplayModel>
+
+@{
+
+}
+
+<h2 class="m-md-4" >Количество книг</h2>
+
+
+<form asp-action="Index" method="get" class="my-2 d-flex gap-2">
+    <input type="text" name="sTerm" calss="form-control w-25"
+           placeholder="Поиск по названию" style="padding-left: 10px" />
+    <button type="submit" class="btn btn-primary">Найти</button>
+    <a asp-action="Index" asp-controller="Stock" class="btn btn-primary">Очистить</a>
+</form>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Книга</th>
+        <th>Количество</th>
+        <th>Действия</th>
+    </tr>
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>@item.BookName</td>
+            <td>@item.Quantity</td>
+            <td>
+                <a asp-action="ManangeStock" asp-controller="Stock" asp-route-bookId="@item.BookId" class="btn btn-info">Изменить количество книг</a>
+            </td>
+        </tr>
+    }
+</table>

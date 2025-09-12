@@ -1,6 +1,7 @@
 using BookShoppingCartMvcUI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using THEBOOKSTORE.Repoditories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IHomeRepository, HomeRepository>();
 builder.Services.AddTransient<ICartRepository, CartRepository>();
 builder.Services.AddTransient<IUserOrderRepository, UserOrderRepository>();
+builder.Services.AddTransient<IStockRepository, StockRepository>();
 var app = builder.Build();
 
 //using (var scope = app.Services.CreateScope())

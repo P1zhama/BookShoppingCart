@@ -1,0 +1,22 @@
+﻿@using THEBOOKSTORE.Models.DTOs
+@model StockDTO
+
+<div style="width:50%; margin-left:30px; margin-top:30px">
+    <h2> Изменить количество книг </h2>
+
+    <form asp-action="ManangeStock">
+        <input type="hidden" asp-for="BookId"/>
+
+        <div class="my-2">
+            <label>Количество</label>
+            <input  asp-for="Quantity" type="number" class="form-control" placeholder="Введите кол-во" style="width:200px" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <button type="submit" class="btn btn-info mt-2">Сохранить</button>
+        </div>
+
+    </form>
+
+</div>

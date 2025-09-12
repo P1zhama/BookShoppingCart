@@ -1,6 +1,7 @@
 ﻿using BookShoppingCartMvcUI.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using THEBOOKSTORE.Models;
 
 namespace BookShoppingCartMvcUI.Data
 {
@@ -17,7 +18,6 @@ namespace BookShoppingCartMvcUI.Data
         public DbSet<CartDetail> CartDetails { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-
         public DbSet<OrderStatus> orderStatuses { get; set; }
         public DbSet<Stock> Stocks { get; set; }
 

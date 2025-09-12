@@ -4,7 +4,7 @@
 }
 
 
-<div class="my-3 m-3">
+<div class="my-3 m-4">
 <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
 
   <div class="col-12">
@@ -54,11 +54,17 @@
                     Автор: @book.AuthorName
                     <br>
                     Цена: @book.Price &#8381;
+                    <br>
+                    На складе: @book.Quantity
                 </p>
             </div>
-            @if (User.IsInRole(Roles.User.ToString()))
+            @if (User.IsInRole(Roles.User.ToString()) && book.Quantity > 0 )
             {                
-                <button type="button" onclick="add(@book.Id)" class="btn btn-primary" style=""><span style="color: white">Добавить в корзину</span></button>
+                <button type="button" onclick="add(@book.Id)" class="btn btn-primary"><span style="color: white">Добавить в корзину</span></button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary" disabled><span style="color: white">Добавить в корзину</span></button>
             }
         </div>
     }
